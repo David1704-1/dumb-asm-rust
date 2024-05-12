@@ -25,48 +25,50 @@ impl CPU {
     }
     pub fn execute(&mut self, memory: &mut Memory) {
         if let Some(operation) = self.instruction_register {
-            match operation.operation.0 {
+            let instruction = &operation.operation.0;
+            let instruction_value = &operation.operation.1;
+            match instruction {
                 Instruction::LOAD => {
                     if let Some(value) = memory.values.pop() {
                         self.accumulator = value;
                     }
                 }
                 Instruction::ADD => {
-                    self.accumulator += operation.operation.1;
+                    self.accumulator += instruction_value;
                 }
                 Instruction::STORE => {
                     memory.values.push(self.accumulator);
                     self.accumulator = 0;
                 }
                 Instruction::PUT => {
-                    memory.values.push(operation.operation.1);
+                    memory.values.push(instruction_value.clone());
                 }
                 Instruction::END => {
                     self.program_counter = 0;
                     self.instruction_register = None;
                 }
                 Instruction::SUB => {
-                    self.accumulator -= operation.operation.1;
+                    self.accumulator -= instruction_value;
                 }
                 Instruction::MUL => {
-                    self.accumulator *= operation.operation.1;
+                    self.accumulator *= instruction_value;
                 }
                 Instruction::DIV => {
                     if operation.operation.1 != 0 {
-                        self.accumulator /= operation.operation.1;
-                        self.reminder = self.accumulator % operation.operation.1;
+                        self.accumulator /= instruction_value;
+                        self.reminder = self.accumulator % instruction_value;
                     }
                 }
                 Instruction::JMP => {
-                    self.program_counter = operation.operation.1 as usize;
+                    self.program_counter = *instruction_value as usize;
                     return;
                 }
                 Instruction::JMPF => {
-                    self.program_counter += operation.operation.1 as usize;
+                    self.program_counter += *instruction_value as usize;
                     return;
                 }
                 Instruction::JMPB => {
-                    self.program_counter -= operation.operation.1 as usize;
+                    self.program_counter -= *instruction_value as usize;
                     return;
                 }
             }
