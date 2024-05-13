@@ -17,9 +17,8 @@ fn main() {
     let filename = &args[1];
 
     for line in read_to_string(filename).unwrap().lines() {
-        if let Some(value) = parse_line(String::from(line)) {
-            operations.push(value);
-        }
+        let value = parse_line(String::from(line));
+        operations.push(value);
     }
     let mut memory = Memory {
         values: vec![],

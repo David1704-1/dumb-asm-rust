@@ -9,6 +9,7 @@ pub struct CPU {
     pub instruction_register: Option<Operation>,
     pub accumulator: i32,
     pub reminder: i32,
+    pub bool_flag: bool,
 }
 
 impl CPU {
@@ -18,6 +19,7 @@ impl CPU {
             instruction_register: None,
             accumulator: 0,
             reminder: 0,
+            bool_flag: false,
         }
     }
     pub fn fetch(&mut self, memory: &Memory) {
@@ -71,6 +73,25 @@ impl CPU {
                     self.program_counter -= *instruction_value as usize;
                     return;
                 }
+                Instruction::EQ => {
+                    self.bool_flag = *instruction_value == self.accumulator;
+                }
+                Instruction::NEQ => {
+                    self.bool_flag = *instruction_value != self.accumulator;
+                }
+                Instruction::JEQ => {
+                    if self.bool_flag {
+                        self.program_counter = *instruction_value as usize;
+                        return;
+                    }
+                }
+                Instruction::JNEQ => {
+                    if !self.bool_flag {
+                        self.program_counter = *instruction_value as usize;
+                        return;
+                    }
+                }
+                Instruction::INV => {}
             }
             self.program_counter += 1;
         }
