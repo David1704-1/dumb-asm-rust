@@ -1,9 +1,11 @@
+use serde::{Deserialize, Serialize};
+
 use crate::{
     instruction::{Instruction, Operation},
     memory::Memory,
 };
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct CPU {
     pub program_counter: usize,
     pub instruction_register: Option<Operation>,

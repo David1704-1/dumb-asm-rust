@@ -1,4 +1,6 @@
-#[derive(Debug, Clone, Copy)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum Instruction {
     LOAD,
     ADD,
@@ -18,9 +20,15 @@ pub enum Instruction {
     INV,
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct Operation {
     pub operation: (Instruction, i32),
+}
+
+impl From<Operation> for String {
+    fn from(value: Operation) -> Self {
+        format!("{:?}: {}", value.operation.0, value.operation.1)
+    }
 }
 
 impl From<&str> for Instruction {
