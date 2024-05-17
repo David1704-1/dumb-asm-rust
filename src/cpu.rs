@@ -59,8 +59,9 @@ impl CPU {
                 }
                 Instruction::DIV => {
                     if operation.operation.1 != 0 {
+                        let tmp = self.accumulator.clone();
                         self.accumulator /= instruction_value;
-                        self.reminder = self.accumulator % instruction_value;
+                        self.reminder = tmp % instruction_value;
                     }
                 }
                 Instruction::JMP => {

@@ -1,6 +1,6 @@
 use crate::instruction::{Instruction, Operation};
 
-pub fn parse_line(line: String) -> Operation {
+pub fn parse_line(line: &str) -> Operation {
     let split: Vec<&str> = line.split(" ").collect();
     let value = if split.len() == 1 {
         0

@@ -24,7 +24,7 @@ pub struct ExecuteRequest {
 pub async fn execute(Json(payload): Json<ExecuteRequest>) -> impl IntoResponse {
     let mut operations: Vec<Operation> = vec![];
     for line in payload.input.split('\n') {
-        let value = parse_line(String::from(line));
+        let value = parse_line(line);
         operations.push(value);
     }
     let (mut cpu, mut memory) = spawn_vm(operations);
