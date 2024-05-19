@@ -29,8 +29,7 @@ impl CPU {
     }
     pub fn execute(&mut self, memory: &mut Memory) {
         if let Some(operation) = self.instruction_register {
-            let instruction = &operation.operation.0;
-            let instruction_value = &operation.operation.1;
+            let (instruction, instruction_value) = operation.operation;
             match instruction {
                 Instruction::LOAD => {
                     if let Some(value) = memory.values.pop() {
@@ -65,49 +64,49 @@ impl CPU {
                     }
                 }
                 Instruction::JMP => {
-                    self.program_counter = *instruction_value as usize;
+                    self.program_counter = instruction_value as usize;
                     return;
                 }
                 Instruction::JMPF => {
-                    self.program_counter += *instruction_value as usize;
+                    self.program_counter += instruction_value as usize;
                     return;
                 }
                 Instruction::JMPB => {
-                    self.program_counter -= *instruction_value as usize;
+                    self.program_counter -= instruction_value as usize;
                     return;
                 }
                 Instruction::EQ => {
-                    self.bool_flag = *instruction_value == self.accumulator;
+                    self.bool_flag = instruction_value == self.accumulator;
                 }
                 Instruction::NEQ => {
-                    self.bool_flag = *instruction_value != self.accumulator;
+                    self.bool_flag = instruction_value != self.accumulator;
                 }
                 Instruction::JEQ => {
                     if self.bool_flag {
-                        self.program_counter = *instruction_value as usize;
+                        self.program_counter = instruction_value as usize;
                         return;
                     }
                 }
                 Instruction::JNEQ => {
                     if !self.bool_flag {
-                        self.program_counter = *instruction_value as usize;
+                        self.program_counter = instruction_value as usize;
                         return;
                     }
                 }
                 Instruction::AND => {
-                    self.accumulator = self.accumulator & *instruction_value;
+                    self.accumulator = self.accumulator & instruction_value;
                 }
                 Instruction::OR => {
-                    self.accumulator = self.accumulator | *instruction_value;
+                    self.accumulator = self.accumulator | instruction_value;
                 }
                 Instruction::XOR => {
-                    self.accumulator = self.accumulator ^ *instruction_value;
+                    self.accumulator = self.accumulator ^ instruction_value;
                 }
                 Instruction::LSHIFT => {
-                    self.accumulator = self.accumulator << *instruction_value;
+                    self.accumulator = self.accumulator << instruction_value;
                 }
                 Instruction::RSHIFT => {
-                    self.accumulator = self.accumulator >> *instruction_value;
+                    self.accumulator = self.accumulator >> instruction_value;
                 }
                 Instruction::INV => {}
             }
