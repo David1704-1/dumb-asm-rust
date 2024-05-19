@@ -94,6 +94,19 @@ impl CPU {
                         return;
                     }
                 }
+                Instruction::AND => {
+                    self.accumulator = self.accumulator & *instruction_value;
+                }
+
+                Instruction::OR => {
+                    self.accumulator = self.accumulator | *instruction_value;
+                }
+                Instruction::LSHIFT => {
+                    self.accumulator = self.accumulator << *instruction_value;
+                }
+                Instruction::RSHIFT => {
+                    self.accumulator = self.accumulator >> *instruction_value;
+                }
                 Instruction::INV => {}
             }
             self.program_counter += 1;

@@ -18,6 +18,10 @@ pub enum Instruction {
     JEQ,
     JNEQ,
     INV,
+    AND,
+    OR,
+    LSHIFT,
+    RSHIFT,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -49,6 +53,10 @@ impl From<&str> for Instruction {
             "NEQ" => Instruction::NEQ,
             "JEQ" => Instruction::JEQ,
             "JNEQ" => Instruction::JNEQ,
+            "AND" => Instruction::AND,
+            "OR" => Instruction::OR,
+            "LSHIFT" => Instruction::LSHIFT,
+            "RSHIFT" => Instruction::RSHIFT,
             _ => Instruction::INV,
         }
     }
