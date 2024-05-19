@@ -97,9 +97,11 @@ impl CPU {
                 Instruction::AND => {
                     self.accumulator = self.accumulator & *instruction_value;
                 }
-
                 Instruction::OR => {
                     self.accumulator = self.accumulator | *instruction_value;
+                }
+                Instruction::XOR => {
+                    self.accumulator = self.accumulator ^ *instruction_value;
                 }
                 Instruction::LSHIFT => {
                     self.accumulator = self.accumulator << *instruction_value;

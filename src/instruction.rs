@@ -20,6 +20,7 @@ pub enum Instruction {
     INV,
     AND,
     OR,
+    XOR,
     LSHIFT,
     RSHIFT,
 }
@@ -55,6 +56,7 @@ impl From<&str> for Instruction {
             "JNEQ" => Instruction::JNEQ,
             "AND" => Instruction::AND,
             "OR" => Instruction::OR,
+            "XOR" => Instruction::XOR,
             "LSHIFT" => Instruction::LSHIFT,
             "RSHIFT" => Instruction::RSHIFT,
             _ => Instruction::INV,
